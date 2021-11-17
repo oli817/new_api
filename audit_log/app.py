@@ -5,6 +5,7 @@ import json
 import datetime
 from pykafka import KafkaClient
 import yaml
+from flask_cors import CORS, cross_orig
 
 
 with open("app_conf.yml", "r") as f:
@@ -83,6 +84,8 @@ def get_wind_speed_reading(index):
 
 app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api("openapioy.yaml", strict_validation=True, validate_responses=True)
+CORS(app.app)
+app.app.config['CORS_HEADERS'] = 'Content-Type'
 
 if __name__ == "__main__":
     app.run(port=8110)

@@ -9,6 +9,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 import requests
 import os
+from flask_cors import CORS, cross_orig
 
 
 with open("app_conf.yml", "r") as f:
@@ -84,7 +85,8 @@ app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api("oli817-weather-1.0.0-swagger.yaml",
             strict_validation=True,
             validate_responses=True)
-
+CORS(app.app)
+app.app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 if __name__ == "__main__":
