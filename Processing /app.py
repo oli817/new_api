@@ -9,7 +9,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 import requests
 import os
-from flask_cors import CORS, cross_orig
+from flask_cors import CORS, cross_origin
 
 
 with open("app_conf.yml", "r") as f:

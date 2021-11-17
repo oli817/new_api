@@ -5,7 +5,7 @@ import json
 import datetime
 from pykafka import KafkaClient
 import yaml
-from flask_cors import CORS, cross_orig
+from flask_cors import CORS, cross_origin
 
 
 with open("app_conf.yml", "r") as f:
