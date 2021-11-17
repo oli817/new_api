@@ -1,0 +1,58 @@
+openapi: 3.0.0
+info:
+  description: This API provide event stats
+  version: "1.0.0"
+  title: Weather API
+  contact:
+    email: oyan@my.bcit.ca
+tags:
+  - name: sensors
+    description: Operations available to weather sensors
+paths:   
+    /stats:
+      get:
+        summary: get event status
+        operationId: app.get_stats
+        description: Get temperature and wind speed processed statistic
+        responses:
+          '200':
+            description: Return a project sucessfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  items:
+                    $ref: '#/components/schemas/ReadingStats'
+          '400':
+            description: Invalid request
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+
+components:
+  schemas:
+    ReadingStats:
+      required:
+      - num_tem_reading
+      - max_tem_reading
+      - num_ws_reading
+      - max_ws_reading
+      properties:
+        num_tem_reading:
+          type: integer
+          example: 50
+        max_tem_reading:
+          type: integer
+          example: 666
+        num_ws_reading:
+          type: integer
+          example: 22
+        max_ws_reading:
+          type: integer
+          example: 99
+      type: object
+      

@@ -1,0 +1,127 @@
+openapi: 3.0.0
+info:
+  description: This API provides audit info
+  version: "1.0.0"
+  title: Audit API
+  contact:
+    email: oyan01@my.bcit.ca
+paths:
+  /temperature:
+    get:
+      summary: gets a temperature reading from history
+      operationId: app.get_temperature_reading
+      description: Gets temperature readings from the event store
+      parameters:
+        - name: index
+          in: query
+          description: Gets the temperature at the index in the event store
+          schema:
+            type: integer
+            example: 100
+      responses:
+        '200':
+          description: Successfully returned a temperature event
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/OutsidetemperatureReading'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /wind_speed:
+    get:
+      summary: gets a wind speed reading from history
+      operationId: app.get_wind_speed_reading
+      description: Gets wind speed reading from the event store
+      parameters:
+        - name: index
+          in: query
+          description: Gets the wind speed at the index in the event store
+          schema:
+            type: integer
+            example: 100
+      responses:
+        '200':
+          description: Successfully returned a wind speed event
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/WindSpeedReading'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+
+components:
+  schemas:
+    OutsidetemperatureReading:
+      required:
+      - address_id
+      - sensor_id
+      - outside_temperature
+      - timestamp
+      properties:
+        address_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        sensor_id:
+          type: string
+          example: A12345
+        outside_temperature:
+          type: integer
+          example: 22
+        timestamp:
+          type: string
+          format: date-time
+          example: '2021-09-12T09:12:33.001Z'
+      type: object
+
+    WindSpeedReading:
+      required:
+      - address_id
+      - sensor_id
+      - wind_speed
+      - timestamp
+      properties:
+        address_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        sensor_id:
+          type: string
+          example: A12345
+        wind_speed:
+          type: integer
+          example: 85
+        timestamp:
+          type: string
+          format: date-time
+          example: '2021-09-12T09:12:33.001Z'
+      type: object

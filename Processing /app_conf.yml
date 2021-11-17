@@ -1,0 +1,10 @@
+version: 1
+datastore:
+  filename: data.json
+scheduler:
+  period_sec: 5
+
+temperature:
+  url: http://localhost:8090/readings/outside-temperature
+wind_speed:
+  url: http://localhost:8090/readings/wind-speed

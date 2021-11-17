@@ -1,0 +1,103 @@
+openapi: 3.0.0
+info:
+  description: This API receives reading events from weather sensors 
+  version: "1.0.0"
+  title: Weather API
+  contact:
+    email: oyan@my.bcit.ca
+tags:
+  - name: sensors
+    description: Operations available to weather sensors
+paths:   
+    /readings/outside-temperature:
+      post:
+        tags:
+          - sensors
+        summary: reports outside temperature sensor reading
+        operationId: app.report_outside_temperature_reading
+        description: Adds a new outside temperature reading to the system
+        responses:
+          '201':
+            description: item created
+          '400':
+            description: 'invalid input, object invalid'
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutsidetemperatureReading'
+          description: Reading item to add
+            
+    /readings/wind-speed:
+      post:
+        tags:
+          - sensors
+        summary: reports a wind speed reading
+        operationId: app.report_wind_speed_reading
+        description: Adds a new wind speed reading to the system
+        responses:
+          '201':
+            description: item created
+          '400':
+            description: 'invalid input, object invalid'
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WindSpeedReading'
+          description: Reading item to add
+
+          
+components:
+  schemas:
+    OutsidetemperatureReading:
+      required:
+      - address_id
+      - sensor_id
+      - outside_temperature
+      - timestamp
+      properties:
+        address_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        sensor_id:
+          type: string
+          example: A12345
+        outside_temperature:
+          type: integer
+          example: 22
+        timestamp:
+          type: string
+          format: date-time
+          example: '2021-09-12T09:12:33.001Z'
+      type: object
+      
+    WindSpeedReading:
+      required:
+      - address_id
+      - sensor_id
+      - wind_speed
+      - timestamp
+      properties:
+        address_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        sensor_id:
+          type: string
+          example: A12345
+        wind_speed:
+          type: integer
+          example: 85
+        timestamp:
+          type: string
+          format: date-time
+          example: '2021-09-12T09:12:33.001Z'
+      type: object
+    
+
+#servers:
+#  # Added by API Auto Mocking Plugin
+#  - description: SwaggerHub API Auto Mocking
+#    url: https://virtserver.swaggerhub.com/oli817/weather/1.0.0

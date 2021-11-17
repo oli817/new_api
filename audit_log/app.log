@@ -1,0 +1,13 @@
+2021-11-03 17:17:38,866 - basicLogger - INFO - Retrieving temperature at index 100
+2021-11-03 17:17:39,334 - basicLogger - ERROR - No more messages found
+2021-11-03 17:17:39,334 - basicLogger - ERROR - Could not find temperature at index 100
+2021-11-03 17:17:48,384 - basicLogger - INFO - Retrieving temperature at index 5
+2021-11-03 17:17:48,651 - basicLogger - ERROR - No more messages found
+2021-11-03 17:17:48,651 - basicLogger - ERROR - Could not find temperature at index 5
+2021-11-03 17:17:55,572 - basicLogger - INFO - Retrieving temperature at index 22
+2021-11-03 17:17:55,825 - basicLogger - ERROR - No more messages found
+2021-11-03 17:17:55,825 - basicLogger - ERROR - Could not find temperature at index 22
+2021-11-03 17:18:56,305 - basicLogger - INFO - Retrieving temperature at index 1
+2021-11-03 17:18:56,552 - basicLogger - ERROR - No more messages found
+2021-11-03 17:18:56,553 - basicLogger - ERROR - Could not find temperature at index 1
+2021-11-03 17:34:09,242 - basicLogger - INFO - Retrieving wind speed at index 1

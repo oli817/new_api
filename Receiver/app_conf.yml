@@ -1,0 +1,9 @@
+#version: 1
+#temperature:
+#  url: http://localhost:8090/readings/outside-temperature
+#wind_speed:
+#  url: http://localhost:8090/readings/wind-speed
+events:
+  hostname: acit4850-lab6.eastus2.cloudapp.azure.com
+  port: 9092
+  topic: events
