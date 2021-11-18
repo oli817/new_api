@@ -7,3 +7,7 @@ events:
   hostname: acit4850-lab6.eastus2.cloudapp.azure.com
   port: 9092
   topic: events
+count:
+  count: 0
+  max_count: 100
+  sleep: 5

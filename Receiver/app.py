@@ -6,10 +6,13 @@ import datetime
 from pykafka import KafkaClient
 import yaml
 import requests
+import time
 
 # MAX_EVENTS = 12
 # EVENTS_FILE = "events.json"
 # logs = []
+
+
 
 with open('app_conf.yml', 'r') as f:
     a_config = yaml.safe_load(f.read())
@@ -21,6 +24,18 @@ with open('log_conf.yml', 'r') as f:
     logging.config.dictConfig(log_config)
     logger = logging.getLogger('basicLogger')
 
+count = app_config["count"]["count"]
+max_count = app_config["count"]["max_count"]
+while count < max_count:
+    logger.info("Connecting to Kafka. It's" + str(count) + "attenps.")
+    try:
+        client = KafkaClient(hosts='acit4850-lab6.eastus2.cloudapp.azure.com:9092')
+        topic = client.topics[str.encode(app_config["events"]["topic"])]
+    except:
+        logger.info("Connection failed.")
+        time.sleep(app_config["count"]["sleep"])
+        count = count + 1
+
 def report_outside_temperature_reading(body):
 
     # logger.info("Received event %s request with a unique id of %s"
@@ -29,9 +44,10 @@ def report_outside_temperature_reading(body):
     # response = requests.post(app_config["temperature"]["url"], json=body, headers=headers)
     # logger.info("Returned event %s response %s with status %s"
     #             % ("read temperature", body["sensor_id"], response.status_code))
+    # client = KafkaClient(hosts='acit4850-lab6.eastus2.cloudapp.azure.com:9092')
+    # topic = client.topics[str.encode(app_config["topic"])]
 
-    client = KafkaClient(hosts='acit4850-lab6.eastus2.cloudapp.azure.com:9092')
-    topic = client.topics[str.encode(app_config["topic"])]
+
     producer = topic.get_sync_producer()
     msg = {"type": "ot",
            "datetime": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
@@ -50,8 +66,9 @@ def report_wind_speed_reading(body):
     #             % ("read wind speed", body["sensor_id"], response.status_code))
 
     # client = KafkaClient(hosts='app_config["hostname"]:app_config["port"]')
-    client = KafkaClient(hosts='acit4850-lab6.eastus2.cloudapp.azure.com:9092')
-    topic = client.topics[str.encode(app_config["topic"])]
+    # client = KafkaClient(hosts='acit4850-lab6.eastus2.cloudapp.azure.com:9092')
+    # topic = client.topics[str.encode(app_config["topic"])]
+    
     producer = topic.get_sync_producer()
 
     msg = {"type": "ws",
