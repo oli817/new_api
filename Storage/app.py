@@ -60,7 +60,7 @@ def get_outside_temperature_reading(timestamp, end_timestamp):
     """ Gets new blood pressure readings after the timestamp """
     session = DB_SESSION()
     timestamp_datetime = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")
-    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%S")
+    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%SZ")
 
     readings = session.query(Temperature).filter(and_(Temperature.date_created >= timestamp_datetime, Temperature.date_created < end_timestamp_datetime))
     results_list = []
@@ -96,7 +96,7 @@ def get_wind_speed_reading(timestamp, end_timestamp):
     """ Gets new blood pressure readings after the timestamp """
     session = DB_SESSION()
     timestamp_datetime = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")
-    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%S")
+    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%SZ")
     readings = session.query(Windspeed).filter(and_(Windspeed.date_created >= timestamp_datetime, Windspeed.date_created < end_timestamp_datetime))
     results_list = []
     for reading in readings:
