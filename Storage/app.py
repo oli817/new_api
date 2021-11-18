@@ -14,48 +14,44 @@ from pykafka.common import OffsetType
 from threading import Thread
 from sqlalchemy import and_
 import time
+import os
 
+if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
+    print("In Test Environment")
+    app_conf_file = "/config/app_conf.yml"
+    log_conf_file = "/config/log_conf.yml"
+else:
+    print("In Dev Environment")
+    app_conf_file = "app_conf.yml"
+    log_conf_file = "log_conf.yml"
 
-with open("app_conf.yml", "r") as f:
+with open(app_conf_file, 'r') as f:
     app_config = yaml.safe_load(f.read())
     db_info = app_config["db"]
-
-with open("log_conf.yml", "r") as f:
+    
+# External Logging Configuration
+with open(log_conf_file, 'r') as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
-    logger = logging.getLogger("basicLogger")
+    
+logger = logging.getLogger('basicLogger')
+logger.info("App Conf File: %s"% app_conf_file)
+logger.info("Log Conf File: %s"% log_conf_file)
+
+# with open("app_conf.yml", "r") as f:
+#     app_config = yaml.safe_load(f.read())
+#     db_info = app_config["db"]
+
+# with open("log_conf.yml", "r") as f:
+#     log_config = yaml.safe_load(f.read())
+#     logging.config.dictConfig(log_config)
+#     logger = logging.getLogger("basicLogger")
 
 DB_ENGINE = create_engine("mysql+pymysql://%s:%s@%s:%s/%s"
                           % (db_info["user"], db_info["password"], db_info["hostname"], db_info["port"], db_info["db"]))
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
-# MAX_EVENTS = 12
-# EVENTS_FILE = "events.json"
-# logs = []
-
-
-# def report_outside_temperature_reading(body):
-#     # logs.append(body)
-#     # if len(logs) > MAX_EVENTS:
-#     #     logs.pop(0)
-#     # log_json(logs)
-#     # return logs, 201
-#     session = DB_SESSION()
-#
-#     ot = Temperature(body['sensor_id'],
-#                        body['address_id'],
-#                        body['outside_temperature'],
-#                        body['timestamp']
-#                        )
-#
-#     session.add(ot)
-#     session.commit()
-#     session.close()
-#
-#     # logger.info("Stored event %s request with a unique id of %s" % ("temperature", body["sensor_id"]))
-#     logger.info("Connecting to DB. Hostname: %s , Port: %d" % (db_info["hostname"], db_info["port"]))
-#     return NoContent, 201
 
 def get_outside_temperature_reading(timestamp, end_timestamp):
     """ Gets new blood pressure readings after the timestamp """
@@ -71,27 +67,6 @@ def get_outside_temperature_reading(timestamp, end_timestamp):
     logger.info("Query for Temperature readings after %s returns %d results" % (timestamp, len(results_list)))
     return results_list, 200
 
-# def report_wind_speed_reading(body):
-#     # logs.append(body)
-#     # if len(logs) > MAX_EVENTS:
-#     #     logs.pop(0)
-#     # log_json(logs)
-#     # return logs, 201
-#     session = DB_SESSION()
-#
-#     ws = Windspeed(body['sensor_id'],
-#                      body['address_id'],
-#                      body['wind_speed'],
-#                      body['timestamp']
-#                      )
-#
-#     session.add(ws)
-#     session.commit()
-#     session.close()
-#
-#     # logger.info("Stored event %s request with a unique id of %s" % ("wind_speed", body["sensor_id"]))
-#     logger.info("Connecting to DB. Hostname: %s , Port: %d" % (db_info["hostname"], db_info["port"]))
-#     return NoContent, 201
 
 def get_wind_speed_reading(timestamp, end_timestamp):
     """ Gets new blood pressure readings after the timestamp """
