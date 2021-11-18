@@ -31,6 +31,7 @@ while count < max_count:
     try:
         client = KafkaClient(hosts='acit4850-lab6.eastus2.cloudapp.azure.com:9092')
         topic = client.topics[str.encode(a_config["events"]["topic"])]
+        break
     except:
         logger.info("Connection failed.")
         time.sleep(a_config["count"]["sleep"])
