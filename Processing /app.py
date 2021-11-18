@@ -46,8 +46,8 @@ def populate_stats():
     # response_temperature = requests.get(app_config["temperature"]["url"], params={'timestamp': last_update})
     # response_wind_speed = requests.get(app_config["wind_speed"]["url"], params={'timestamp': last_update})
 
-    response_temperature = requests.get(app_config["temperature"]["url"] + "?start_timestamp=" + last_update + "&end_timestamp=" + dt_string)
-    response_wind_speed = requests.get(app_config["wind_speed"]["url"] + "?start_timestamp=" + last_update + "&end_timestamp=" + dt_string)
+    response_temperature = requests.get(app_config["temperature"]["url"] + "?timestamp=" + last_update + "&end_timestamp=" + dt_string)
+    response_wind_speed = requests.get(app_config["wind_speed"]["url"] + "?timestamp=" + last_update + "&end_timestamp=" + dt_string)
 
     # if response_temperature.status_code == 200 and response_wind_speed.status_code == 200:
 
