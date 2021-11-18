@@ -43,8 +43,11 @@ def populate_stats():
     with open(data_file, "r") as f:
         last_update = json.load(f)["last_updated"]
 
-    response_temperature = requests.get(app_config["temperature"]["url"], params={'timestamp': last_update})
-    response_wind_speed = requests.get(app_config["wind_speed"]["url"], params={'timestamp': last_update})
+    # response_temperature = requests.get(app_config["temperature"]["url"], params={'timestamp': last_update})
+    # response_wind_speed = requests.get(app_config["wind_speed"]["url"], params={'timestamp': last_update})
+
+    response_temperature = requests.get(app_config["temperature"]["url"] + "/outside-temperature?start_timestamp=" + last_update + "&end_timestamp=" + dt_string)
+    response_wind_speed = requests.get(app_config["wind_speed"]["url"] + "/wind_speed?start_timestamp=" + last_update + "&end_timestamp=" + dt_string)
 
     # if response_temperature.status_code == 200 and response_wind_speed.status_code == 200:
 

@@ -12,6 +12,7 @@ import datetime
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
 from threading import Thread
+from sqlalchemy import and_
 
 
 with open("app_conf.yml", "r") as f:
@@ -55,11 +56,13 @@ DB_SESSION = sessionmaker(bind=DB_ENGINE)
 #     logger.info("Connecting to DB. Hostname: %s , Port: %d" % (db_info["hostname"], db_info["port"]))
 #     return NoContent, 201
 
-def get_outside_temperature_reading(timestamp):
+def get_outside_temperature_reading(timestamp, end_timestamp):
     """ Gets new blood pressure readings after the timestamp """
     session = DB_SESSION()
     timestamp_datetime = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")
-    readings = session.query(Temperature).filter(Temperature.date_created >= timestamp_datetime)
+    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%S")
+
+    readings = session.query(Temperature).filter(and_(Temperature.date_created >= timestamp_datetime, Temperature.date_created < end_timestamp_datetime))
     results_list = []
     for reading in readings:
         results_list.append(reading.to_dict())
@@ -89,11 +92,12 @@ def get_outside_temperature_reading(timestamp):
 #     logger.info("Connecting to DB. Hostname: %s , Port: %d" % (db_info["hostname"], db_info["port"]))
 #     return NoContent, 201
 
-def get_wind_speed_reading(timestamp):
+def get_wind_speed_reading(timestamp, end_timestamp):
     """ Gets new blood pressure readings after the timestamp """
     session = DB_SESSION()
     timestamp_datetime = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")
-    readings = session.query(Windspeed).filter(Windspeed.date_created >= timestamp_datetime)
+    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%S")
+    readings = session.query(Windspeed).filter(and_(Windspeed.date_created >= timestamp_datetime, Windspeed.date_created < end_timestamp_datetime))
     results_list = []
     for reading in readings:
         results_list.append(reading.to_dict())
