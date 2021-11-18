@@ -109,10 +109,11 @@ def get_wind_speed_reading(timestamp, end_timestamp):
 def process_messages():
     """ Process event messages """
     hostname = "%s:%d" % (app_config["events"]["hostname"], app_config["events"]["port"])
+
     count = app_config["count"]["count"]
     max_count = app_config["count"]["max_count"]
     while count < max_count:
-        logger.info("Connecting to Kafka. It's" + count + "attenps.")
+        logger.info("Connecting to Kafka. It's" + str(count) + "attenps.")
         try:
             client = KafkaClient(hosts=hostname)
             topic = client.topics[str.encode(app_config["events"]["topic"])]
@@ -120,6 +121,7 @@ def process_messages():
             logger.info("Connection failed.")
             time.sleep(app_config["count"]["sleep"])
             count = count + 1
+    
     consumer = topic.get_simple_consumer(consumer_group=b'event_group',
                                          reset_offset_on_start=False,
                                          auto_offset_reset=OffsetType.LATEST)
