@@ -24,16 +24,16 @@ with open('log_conf.yml', 'r') as f:
     logging.config.dictConfig(log_config)
     logger = logging.getLogger('basicLogger')
 
-count = app_config["count"]["count"]
-max_count = app_config["count"]["max_count"]
+count = a_config["count"]["count"]
+max_count = a_config["count"]["max_count"]
 while count < max_count:
     logger.info("Connecting to Kafka. It's" + str(count) + "attenps.")
     try:
         client = KafkaClient(hosts='acit4850-lab6.eastus2.cloudapp.azure.com:9092')
-        topic = client.topics[str.encode(app_config["events"]["topic"])]
+        topic = client.topics[str.encode(a_config["events"]["topic"])]
     except:
         logger.info("Connection failed.")
-        time.sleep(app_config["count"]["sleep"])
+        time.sleep(a_config["count"]["sleep"])
         count = count + 1
 
 def report_outside_temperature_reading(body):
@@ -68,7 +68,7 @@ def report_wind_speed_reading(body):
     # client = KafkaClient(hosts='app_config["hostname"]:app_config["port"]')
     # client = KafkaClient(hosts='acit4850-lab6.eastus2.cloudapp.azure.com:9092')
     # topic = client.topics[str.encode(app_config["topic"])]
-    
+
     producer = topic.get_sync_producer()
 
     msg = {"type": "ws",
