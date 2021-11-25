@@ -1,5 +1,4 @@
 import connexion
-from connexion import NoContent
 import json
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -7,7 +6,7 @@ from temperature import Temperature
 from windspeed import Windspeed
 from base import Base
 import yaml
-import logging, logging.config
+import logging.config
 import datetime
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
@@ -18,8 +17,8 @@ import os
 
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
     print("In Test Environment")
-    app_conf_file = "/config/storage/app_conf.yml"
-    log_conf_file = "/config/storage/log_conf.yml"
+    app_conf_file = "/config/app_conf.yml"
+    log_conf_file = "/config/log_conf.yml"
 else:
     print("In Dev Environment")
     app_conf_file = "app_conf.yml"
