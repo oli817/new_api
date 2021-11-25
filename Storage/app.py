@@ -6,7 +6,7 @@ from temperature import Temperature
 from windspeed import Windspeed
 from base import Base
 import yaml
-import logging.config
+import logging, logging.config
 import datetime
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
